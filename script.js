@@ -1,5 +1,5 @@
 
-document.addEventListener("DOMContentLoaded", function () {
+
 document.addEventListener("DOMContentLoaded", function () {
   const openTodoBtn = document.getElementById("openTodo");
   const openShelfBtn = document.getElementById("openShelf");
@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
     shelfSection.style.display = "block";
     todoSection.style.display = "none";
   });
-});
  const taskList = document.getElementById("taskList");
   const addTaskBtn = document.getElementById("addTask");
   const newTaskInput = document.getElementById("newTaskInput");
