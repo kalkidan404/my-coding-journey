@@ -1,6 +1,6 @@
-
-
+Kalkidan, [8/5/2025 11:25 PM]
 document.addEventListener("DOMContentLoaded", function () {
+  // Section toggles
   const openTodoBtn = document.getElementById("openTodo");
   const openShelfBtn = document.getElementById("openShelf");
   const homeSection = document.getElementById("home");
@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     shelfSection.style.display = "block";
     todoSection.style.display = "none";
   });
- const taskList = document.getElementById("taskList");
+
+  // To-do list
+  const taskList = document.getElementById("taskList");
   const addTaskBtn = document.getElementById("addTask");
   const newTaskInput = document.getElementById("newTaskInput");
   const timeInput = document.getElementById("timeInput");
@@ -42,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function addTaskToDOM(text, time, done) {
     const li = document.createElement("li");
-
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.classList.add("task-check");
@@ -105,89 +106,86 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
-});
 
-// -------------------- Book Section --------------------
+  // -------------------- Book Section --------------------
 
-const books = [
-  { title: "Crime and Punishment", genre: "classic", file: "Crime-and-Punishment.txt" },
-  { title: "The Idiot", genre: "classic", file: "the-idiot.txt" },
-  { title: "Notes from Underground", genre: "classic", file: "notes-from-underground.txt" },
-  { title: "Frankenstein", genre: "classic", file: "frankenstein.txt" },
-  { title: "Pride and Prejudice", genre: "romance", file: "pride-and-prejudice.txt" },
-  { title: "Meditations", genre: "self-help", file: "meditations.txt", language: "english" },
-  { title: "The Brothers Karamazov", genre: "classic", file: "the-brothers-karamazov.txt" }
-];
+  const books = [
+    { title: "Crime and Punishment", genre: "classic", file: "Crime-and-Punishment.txt" },
+    { title: "The Idiot", genre: "classic", file: "the-idiot.txt" },
+    { title: "Notes from Underground", genre: "classic", file: "notes-from-underground.txt" },
+    { title: "Frankenstein", genre: "classic", file: "frankenstein.txt" },
+    { title: "Pride and Prejudice", genre: "romance", file: "pride-and-prejudice.txt" },
+    { title: "Meditations", genre: "self-help", file: "meditations.txt", language: "english" },
+    { title: "The Brothers Karamazov", genre: "classic", file: "the-brothers-karamazov.txt" }
+  ];
 
+Kalkidan, [8/5/2025 11:25 PM]
 const categoryButtons = document.querySelectorAll(".category > button");
-const genreContainers = document.querySelectorAll(".genres");
-const bookDisplay = document.getElementById("bookDisplay");
-const reader = document.getElementById("reader");
-const backBtn = document.getElementById("backBtn");
-let selectedGenre = null;
+  const genreContainers = document.querySelectorAll(".genres");
+  const bookDisplay = document.getElementById("bookDisplay");
+  const reader = document.getElementById("reader");
+  const backBtn = document.getElementById("backBtn");
+  let selectedGenre = null;
 
-// Toggle genre sections
-categoryButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const style = btn.dataset.style;
-    genreContainers.forEach(div => {
-      div.style.display = (div.dataset.genres === style) ? "block" : "none";
+  // Toggle genre sections
+  categoryButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const style = btn.dataset.style;
+      genreContainers.forEach(div => {
+        div.style.display = (div.dataset.genres === style) ? "block" : "none";
+      });
+      bookDisplay.innerHTML = "";
+      reader.textContent = "Select a book to read its content here...";
     });
+  });
+
+  // Show books of selected genre
+  document.querySelectorAll(".genres button").forEach(genreBtn => {
+    genreBtn.addEventListener("click", () => {
+      selectedGenre = genreBtn.dataset.genre;
+      renderBooks();
+    });
+  });
+
+  function renderBooks() {
     bookDisplay.innerHTML = "";
     reader.textContent = "Select a book to read its content here...";
-  });
-});
-// Show books of selected genre
-document.querySelectorAll(".genres button").forEach(genreBtn => {
-  genreBtn.addEventListener("click", () => {
-    selectedGenre = genreBtn.dataset.genre;
-    renderBooks();
-  });
-});
-
-function renderBooks() {
-  bookDisplay.innerHTML = "";
-  reader.textContent = "Select a book to read its content here...";
-
-  if (!selectedGenre) {
-    bookDisplay.textContent = "Please select a genre to see books.";
-    return;
-  }
-
-  const filteredBooks = books.filter(book => book.genre === selectedGenre);
-  if (filteredBooks.length === 0) {
-    bookDisplay.textContent = "No books found in this genre.";
-    return;
-  }
-
-  filteredBooks.forEach(book => {
-    const li = document.createElement("li");
-    const bookBtn = document.createElement("button");
-    bookBtn.textContent = book.title;
-    bookBtn.style.cursor = "pointer";
-
-    bookBtn.addEventListener("click", () => {
-      const content = Android.getBookContent(book.file); // Kotlin interface
-      reader.textContent = content;
-
-      // Optional fullscreen reader
-      backBtn.style.display = 'block';
+    if (!selectedGenre) {
+      bookDisplay.textContent = "Please select a genre to see books.";
+      return;
+    }
+    const filteredBooks = books.filter(book => book.genre === selectedGenre);
+    if (filteredBooks.length === 0) {
+      bookDisplay.textContent = "No books found in this genre.";
+      return;
+    }
+    filteredBooks.forEach(book => {
+      const li = document.createElement("li");
+      const bookBtn = document.createElement("button");
+      bookBtn.textContent = book.title;
+      bookBtn.style.cursor = "pointer";
+      bookBtn.addEventListener("click", () => {
+        // Temporarily mock Android interface for web testing
+        const content = "Preview content for " + book.title;
+        reader.textContent = content;
+        // Optional fullscreen reader
+        backBtn.style.display = 'block';
+      });
+      li.appendChild(bookBtn);
+      bookDisplay.appendChild(li);
     });
+  }
 
-    li.appendChild(bookBtn);
-    bookDisplay.appendChild(li);
+  // Go back from reader
+  backBtn.addEventListener('click', () => {
+    document.querySelector('.category').style.display = 'flex';
+    document.querySelectorAll('.genres').forEach(div => {
+      div.style.display = 'flex';
+    });
+    bookDisplay.style.display = 'block';
+    reader.style = '';
+    reader.textContent = "Select a book to read its content here...";
+    backBtn.style.display = 'none';
   });
-}
-
-// Go back from reader
-backBtn.addEventListener('click', () => {
-  document.querySelector('.category').style.display = 'flex';
-  document.querySelectorAll('.genres').forEach(div => {
-    div.style.display = 'flex';
-  });
-  bookDisplay.style.display = 'block';
-
-  reader.style = '';
-  reader.textContent = "Select a book to read its content here...";
-  backBtn.style.display = 'none';
 });
+
