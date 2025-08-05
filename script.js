@@ -1,6 +1,25 @@
 
 document.addEventListener("DOMContentLoaded", function () {
-  const taskList = document.getElementById("taskList");
+document.addEventListener("DOMContentLoaded", function () {
+  const openTodoBtn = document.getElementById("openTodo");
+  const openShelfBtn = document.getElementById("openShelf");
+  const homeSection = document.getElementById("home");
+  const todoSection = document.getElementById("todo");
+  const shelfSection = document.getElementById("shelf");
+
+  openTodoBtn.addEventListener("click", function () {
+    homeSection.style.display = "none";
+    todoSection.style.display = "block";
+    shelfSection.style.display = "none";
+  });
+
+  openShelfBtn.addEventListener("click", function () {
+    homeSection.style.display = "none";
+    shelfSection.style.display = "block";
+    todoSection.style.display = "none";
+  });
+});
+ const taskList = document.getElementById("taskList");
   const addTaskBtn = document.getElementById("addTask");
   const newTaskInput = document.getElementById("newTaskInput");
   const timeInput = document.getElementById("timeInput");
